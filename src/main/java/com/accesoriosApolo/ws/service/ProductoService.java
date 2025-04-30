@@ -13,51 +13,43 @@ public class ProductoService {
     private final ProductoDao productoDao;
 
     @Autowired
-    public ProductoService(ProductoDao productoDao){
-        this.productoDao=productoDao;
+    public ProductoService(ProductoDao productoDao) {
+        this.productoDao = productoDao;
     }
 
-    public ProductoDto obtenerProdutoPorReferencia(String referencia) {
-        return ProductoDao.consultarProductoIndividual(referencia);
+    public ProductoDto obtenerProductoPorReferencia(String referencia) {
+        return productoDao.consultarProductoIndividual(referencia);
     }
 
-    public List<ProductoDto> obtenerListaProductos(){
+    public List<ProductoDto> obtenerListaProductos() {
         return productoDao.obtenerListaProductos();
     }
 
-    public ProductoDto registrarProducto(ProductoDto productoDto){
-
-        //CategoriaDto categoriaDto= categoriaDao.consultarCategoriaIndividual(productoDto.getFk_categoria());
-
-        if (productoDto==null || productoDto.getReferencia()==null || productoDto.getReferencia().isEmpty()
-                /*|| categoriaDto==null*/){
+    public ProductoDto registrarProducto(ProductoDto productoDto) {
+        if (productoDto == null || productoDto.getReferencia() == null || productoDto.getReferencia().isEmpty()) {
             return null;
         }
-
         return productoDao.registrarProducto(productoDto);
     }
 
-    public ProductoDto actualizarProducto(ProductoDto productoDto){
-        if (productoDto==null ||productoDto.getReferencia()==null || productoDto.getReferencia().isEmpty()){
+    public ProductoDto actualizarProducto(ProductoDto productoDto) {
+        if (productoDto == null || productoDto.getReferencia() == null || productoDto.getReferencia().isEmpty()) {
             return null;
         }
-        //CategoriaDto categoriaDto= categoriaDao.consultarCategoriaIndividual(productoDto.getReferencia());
 
-        ProductoDto categoriaExistente= ProductoDao.consultarProductoIndividual(productoDto.getReferencia());
-        if (categoriaExistente ==null /*|| ==null*/){
+        ProductoDto productoExistente = productoDao.consultarProductoIndividual(productoDto.getReferencia());
+        if (productoExistente == null) {
             return null;
         }
+
         return productoDao.actualizarProducto(productoDto);
     }
 
-    public boolean eliminarProducto(String referencia){
-
-        ProductoDto productoExistente= ProductoDao.consultarProductoIndividual(referencia);
-
-        if (productoExistente ==null){
+    public boolean eliminarProducto(String referencia) {
+        ProductoDto productoExistente = productoDao.consultarProductoIndividual(referencia);
+        if (productoExistente == null) {
             return false;
         }
         return productoDao.eliminarProducto(productoExistente);
     }
-
 }

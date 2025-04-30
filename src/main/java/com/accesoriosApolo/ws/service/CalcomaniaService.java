@@ -17,8 +17,8 @@ public class CalcomaniaService {
         this.calcomaniaDao = calcomaniaDao;
     }
 
-    public CalcomaniaDto obtenerCalcomaniaPorId(int id_calcomania) {
-        return CalcomaniaDao.consultarCalcomaniaIndividual(id_calcomania);
+    public CalcomaniaDto obtenerCalcomaniaPorId(int idCalcomania) {
+        return calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
     }
 
     public List<CalcomaniaDto> obtenerListaCalcomanias() {
@@ -34,11 +34,11 @@ public class CalcomaniaService {
     }
 
     public CalcomaniaDto actualizarCalcomania(CalcomaniaDto calcomaniaDto) {
-        if (calcomaniaDto == null || calcomaniaDto.getId_calcomania() == 0) {
+        if (calcomaniaDto == null || calcomaniaDto.getIdCalcomania() == null || calcomaniaDto.getIdCalcomania() == 0) {
             return null;
         }
 
-        CalcomaniaDto calcomaniaExistente = CalcomaniaDao.consultarCalcomaniaIndividual(calcomaniaDto.getId_calcomania());
+        CalcomaniaDto calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(calcomaniaDto.getIdCalcomania());
         if (calcomaniaExistente == null) {
             return null;
         }
@@ -46,12 +46,12 @@ public class CalcomaniaService {
         return calcomaniaDao.actualizarCalcomania(calcomaniaDto);
     }
 
-    public boolean eliminarCalcomania(int id_calcomania) {
-        CalcomaniaDto calcomaniaExistente = CalcomaniaDao.consultarCalcomaniaIndividual(id_calcomania);
-
+    public boolean eliminarCalcomania(int idCalcomania) {
+        CalcomaniaDto calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
         if (calcomaniaExistente == null) {
             return false;
         }
+
         return calcomaniaDao.eliminarCalcomania(calcomaniaExistente);
     }
 }

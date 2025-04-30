@@ -43,7 +43,6 @@ public class ProveedorDao {
                 obj.setEmpresa(proveedorDto.getEmpresa());
                 obj.setCorreo(proveedorDto.getCorreo());
                 obj.setTelefono(proveedorDto.getTelefono());
-                obj.setEstado(proveedorDto.getEstado());
                 obj.setDireccion(proveedorDto.getDireccion());
                 return obj;
             }

@@ -20,15 +20,15 @@ public class CalcomaniaDto implements Serializable {
     @Column(name = "formato", length = 50)
     private String formato;
 
-    @Column(name = "formato_archivo", length = 50)
-    private String formatoArchivo;
+    @Column(name = "tamaño_archivo", length = 50)
+    private String tamañoArchivo;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_subida")
     private Date fechaSubida;
 
-    @Column(name = "url_repositorio", columnDefinition = "TEXT")
-    private String urlRepositorio;
+    @Column(name = "url_archivo", columnDefinition = "TEXT")
+    private String urlArchivo;
 
     @Column(name = "FK_cedula")
     private Integer fkCedula;
@@ -36,14 +36,14 @@ public class CalcomaniaDto implements Serializable {
     public CalcomaniaDto() {
     }
 
-    public CalcomaniaDto(Integer idCalcomania, String nombre, String formato, String formatoArchivo,
-                         Date fechaSubida, String urlRepositorio, Integer fkCedula) {
+    public CalcomaniaDto(Integer idCalcomania, String nombre, String formato, String tamañoArchivo,
+                         Date fechaSubida, String urlArchivo, Integer fkCedula) {
         this.idCalcomania = idCalcomania;
         this.nombre = nombre;
         this.formato = formato;
-        this.formatoArchivo = formatoArchivo;
+        this.tamañoArchivo = tamañoArchivo;
         this.fechaSubida = fechaSubida;
-        this.urlRepositorio = urlRepositorio;
+        this.urlArchivo = urlArchivo;
         this.fkCedula = fkCedula;
     }
 
@@ -71,12 +71,12 @@ public class CalcomaniaDto implements Serializable {
         this.formato = formato;
     }
 
-    public String getFormatoArchivo() {
-        return formatoArchivo;
+    public String getTamañoArchivo() {
+        return tamañoArchivo;
     }
 
-    public void setFormatoArchivo(String formatoArchivo) {
-        this.formatoArchivo = formatoArchivo;
+    public void setTamañoArchivo(String tamañoArchivo) {
+        this.tamañoArchivo = tamañoArchivo;
     }
 
     public Date getFechaSubida() {
@@ -87,12 +87,12 @@ public class CalcomaniaDto implements Serializable {
         this.fechaSubida = fechaSubida;
     }
 
-    public String getUrlRepositorio() {
-        return urlRepositorio;
+    public String getUrlArchivo() {
+        return urlArchivo;
     }
 
-    public void setUrlRepositorio(String urlRepositorio) {
-        this.urlRepositorio = urlRepositorio;
+    public void setUrlArchivo(String urlArchivo) {
+        this.urlArchivo = urlArchivo;
     }
 
     public Integer getFkCedula() {
@@ -109,9 +109,9 @@ public class CalcomaniaDto implements Serializable {
                 "idCalcomania=" + idCalcomania +
                 ", nombre='" + nombre + '\'' +
                 ", formato='" + formato + '\'' +
-                ", formatoArchivo='" + formatoArchivo + '\'' +
+                ", tamañoArchivo='" + tamañoArchivo + '\'' +
                 ", fechaSubida=" + fechaSubida +
-                ", urlRepositorio='" + urlRepositorio + '\'' +
+                ", urlArchivo='" + urlArchivo + '\'' +
                 ", fkCedula=" + fkCedula +
                 '}';
     }

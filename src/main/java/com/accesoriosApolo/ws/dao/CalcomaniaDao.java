@@ -13,17 +13,17 @@ public class CalcomaniaDao {
         CalcomaniaUtilidades.iniciarLista();
     }
 
-    public static CalcomaniaDto consultarCalcomaniaIndividual(int id_calcomania) {
+    public static CalcomaniaDto consultarCalcomaniaIndividual(int idCalcomania) {
         for (CalcomaniaDto c : CalcomaniaUtilidades.listaCalcomanias) {
-            if (c.getId_calcomania() == id_calcomania) {
+            if (c.getIdCalcomania() == idCalcomania) {
                 CalcomaniaDto calcomaniaDto = new CalcomaniaDto();
-                calcomaniaDto.setId_calcomania(c.getId_calcomania());
+                calcomaniaDto.setIdCalcomania(c.getIdCalcomania());
                 calcomaniaDto.setNombre(c.getNombre());
-                calcomaniaDto.setFecha_subida(c.getFecha_subida());
+                calcomaniaDto.setFechaSubida(c.getFechaSubida());
                 calcomaniaDto.setFormato(c.getFormato());
-                calcomaniaDto.setUrl_archivo(c.getUrl_archivo());
-                calcomaniaDto.setTamaño_archivo(c.getTamaño_archivo());
-                calcomaniaDto.setFk_cedula(c.getFk_cedula());
+                calcomaniaDto.setUrlArchivo(c.getUrlArchivo());
+                calcomaniaDto.setTamañoArchivo(c.getTamañoArchivo());
+                calcomaniaDto.setFkCedula(c.getFkCedula());
                 return calcomaniaDto;
             }
         }
@@ -36,26 +36,24 @@ public class CalcomaniaDao {
 
     public CalcomaniaDto registrarCalcomania(CalcomaniaDto calcomaniaDto) {
         for (CalcomaniaDto obj : CalcomaniaUtilidades.listaCalcomanias) {
-            if (obj.getId_calcomania() == calcomaniaDto.getId_calcomania()) {
+            if (obj.getIdCalcomania() == calcomaniaDto.getIdCalcomania()) {
                 return null;
             }
         }
 
         CalcomaniaUtilidades.listaCalcomanias.add(calcomaniaDto);
-
         return calcomaniaDto;
     }
 
     public CalcomaniaDto actualizarCalcomania(CalcomaniaDto calcomaniaDto) {
         for (CalcomaniaDto obj : CalcomaniaUtilidades.listaCalcomanias) {
-            if (obj.getId_calcomania() == calcomaniaDto.getId_calcomania()) {
+            if (obj.getIdCalcomania() == calcomaniaDto.getIdCalcomania()) {
                 obj.setNombre(calcomaniaDto.getNombre());
-                obj.setFecha_subida(calcomaniaDto.getFecha_subida());
+                obj.setFechaSubida(calcomaniaDto.getFechaSubida());
                 obj.setFormato(calcomaniaDto.getFormato());
-                obj.setUrl_archivo(calcomaniaDto.getUrl_archivo());
-                obj.setTamaño_archivo(calcomaniaDto.getTamaño_archivo());
-                obj.setFk_cedula(calcomaniaDto.getFk_cedula());
-
+                obj.setUrlArchivo(calcomaniaDto.getUrlArchivo());
+                obj.setTamañoArchivo(calcomaniaDto.getTamañoArchivo());
+                obj.setFkCedula(calcomaniaDto.getFkCedula());
                 return obj;
             }
         }
@@ -64,7 +62,7 @@ public class CalcomaniaDao {
 
     public boolean eliminarCalcomania(CalcomaniaDto calcomaniaDto) {
         for (int i = 0; i < CalcomaniaUtilidades.listaCalcomanias.size(); i++) {
-            if (CalcomaniaUtilidades.listaCalcomanias.get(i).getId_calcomania() == calcomaniaDto.getId_calcomania()) {
+            if (CalcomaniaUtilidades.listaCalcomanias.get(i).getIdCalcomania() == calcomaniaDto.getIdCalcomania()) {
                 CalcomaniaUtilidades.listaCalcomanias.remove(i);
                 return true;
             }

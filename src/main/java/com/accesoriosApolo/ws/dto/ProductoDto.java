@@ -1,10 +1,6 @@
 package com.accesoriosApolo.ws.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -29,17 +25,17 @@ public class ProductoDto implements Serializable {
     @Column(name = "stock")
     private Integer stock;
 
-    @Column(name = "precio_unitario", precision = 10, scale = 2)
-    private BigDecimal precioUnitario;
+    @Column(name = "url_archivo", columnDefinition = "TEXT")
+    private String urlArchivo;
 
-    @Column(name = "peso_unidad", precision = 10, scale = 2)
-    private BigDecimal pesoUnidad;
+    @Column(name = "precio_unidad", precision = 10, scale = 2)
+    private BigDecimal precioUnidad;
 
     @Column(name = "ficha_tecnica", columnDefinition = "TEXT")
     private String fichaTecnica;
 
-    @Column(name = "promo_descuento", precision = 5, scale = 2)
-    private BigDecimal promoDescuento;
+    @Column(name = "precio_descuento", precision = 5, scale = 2)
+    private BigDecimal precioDescuento;
 
     @Column(name = "FK_id_categoria")
     private Integer fkIdCategoria;
@@ -48,19 +44,21 @@ public class ProductoDto implements Serializable {
     }
 
     public ProductoDto(String referencia, String nombre, String descripcion, String talla, Integer stock,
-                       BigDecimal precioUnitario, BigDecimal pesoUnidad, String fichaTecnica,
-                       BigDecimal promoDescuento, Integer fkIdCategoria) {
+                       String urlArchivo, BigDecimal precioUnidad, String fichaTecnica,
+                       BigDecimal precioDescuento, Integer fkIdCategoria) {
         this.referencia = referencia;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.talla = talla;
         this.stock = stock;
-        this.precioUnitario = precioUnitario;
-        this.pesoUnidad = pesoUnidad;
+        this.urlArchivo = urlArchivo;
+        this.precioUnidad = precioUnidad;
         this.fichaTecnica = fichaTecnica;
-        this.promoDescuento = promoDescuento;
+        this.precioDescuento = precioDescuento;
         this.fkIdCategoria = fkIdCategoria;
     }
+
+    // Getters y Setters
 
     public String getReferencia() {
         return referencia;
@@ -102,20 +100,20 @@ public class ProductoDto implements Serializable {
         this.stock = stock;
     }
 
-    public BigDecimal getPrecioUnitario() {
-        return precioUnitario;
+    public String getUrlArchivo() {
+        return urlArchivo;
     }
 
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
-        this.precioUnitario = precioUnitario;
+    public void setUrlArchivo(String urlArchivo) {
+        this.urlArchivo = urlArchivo;
     }
 
-    public BigDecimal getPesoUnidad() {
-        return pesoUnidad;
+    public BigDecimal getPrecioUnidad() {
+        return precioUnidad;
     }
 
-    public void setPesoUnidad(BigDecimal pesoUnidad) {
-        this.pesoUnidad = pesoUnidad;
+    public void setPrecioUnidad(BigDecimal precioUnidad) {
+        this.precioUnidad = precioUnidad;
     }
 
     public String getFichaTecnica() {
@@ -126,12 +124,12 @@ public class ProductoDto implements Serializable {
         this.fichaTecnica = fichaTecnica;
     }
 
-    public BigDecimal getPromoDescuento() {
-        return promoDescuento;
+    public BigDecimal getPrecioDescuento() {
+        return precioDescuento;
     }
 
-    public void setPromoDescuento(BigDecimal promoDescuento) {
-        this.promoDescuento = promoDescuento;
+    public void setPrecioDescuento(BigDecimal precioDescuento) {
+        this.precioDescuento = precioDescuento;
     }
 
     public Integer getFkIdCategoria() {
@@ -150,10 +148,10 @@ public class ProductoDto implements Serializable {
                 ", descripcion='" + descripcion + '\'' +
                 ", talla='" + talla + '\'' +
                 ", stock=" + stock +
-                ", precioUnitario=" + precioUnitario +
-                ", pesoUnidad=" + pesoUnidad +
+                ", urlArchivo='" + urlArchivo + '\'' +
+                ", precioUnidad=" + precioUnidad +
                 ", fichaTecnica='" + fichaTecnica + '\'' +
-                ", promoDescuento=" + promoDescuento +
+                ", precioDescuento=" + precioDescuento +
                 ", fkIdCategoria=" + fkIdCategoria +
                 '}';
     }
