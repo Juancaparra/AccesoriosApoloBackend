@@ -1,6 +1,7 @@
 package com.accesoriosApolo.ws.dto;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 
