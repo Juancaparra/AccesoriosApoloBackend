@@ -16,23 +16,28 @@ public class ProductoController {
     private final ProductoService productoService;
 
     @Autowired
-    public ProductoController(ProductoService productoService){
-        this.productoService=productoService;
+    public ProductoController(ProductoService productoService) {
+        this.productoService = productoService;
     }
 
+    // Obtener un producto por referencia
     @GetMapping("productos/{referencia}")
-    public ResponseEntity<?> getproductoReferencia(@PathVariable("referencia") String referencia){
+    public ResponseEntity<?> getProductoPorReferencia(@PathVariable("referencia") String referencia) {
         if (referencia == null || referencia.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El parámetro 'referencia' es obligatorio.");
         }
+
         ProductoDto productoDto = productoService.obtenerProdutoPorReferencia(referencia);
+
         if (productoDto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Producto no encontrado para la referencia: " + referencia);
         }
+
         return ResponseEntity.ok(productoDto);
     }
 
+    // Obtener lista de productos
     @GetMapping("productos-list")
     public ResponseEntity<List<ProductoDto>> getProductos() {
         try {
@@ -45,42 +50,55 @@ public class ProductoController {
             return ResponseEntity.ok(productoDtos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
+                    .body(null);
         }
     }
 
+    // Registrar un nuevo producto
     @PostMapping("registrar")
-    public ResponseEntity<ProductoDto> registrarProducto(@RequestBody ProductoDto productoDto){
+    public ResponseEntity<ProductoDto> registrarProducto(@RequestBody ProductoDto productoDto) {
+        if (productoDto == null || productoDto.getReferencia() == null || productoDto.getReferencia().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
 
-        ProductoDto miProducto= productoService.registrarProducto(productoDto);
-        if (miProducto != null ){
-            return ResponseEntity.ok(miProducto);
-        }else{
+        ProductoDto miProducto = productoService.registrarProducto(productoDto);
+
+        if (miProducto != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(miProducto);
+        } else {
             return ResponseEntity.badRequest().build();
         }
     }
 
+    // Actualizar un producto
     @PutMapping("actualizar")
-    public ResponseEntity<?> actualizarProducto(@RequestBody ProductoDto productoDto){
-        ProductoDto productoActualizado= productoService.actualizarProducto(productoDto);
-
-        if (productoActualizado ==null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontro un producto con la referencia especificada.");
+    public ResponseEntity<?> actualizarProducto(@RequestBody ProductoDto productoDto) {
+        if (productoDto == null || productoDto.getReferencia() == null || productoDto.getReferencia().isEmpty()) {
+            return ResponseEntity.badRequest().body("La referencia es obligatoria para actualizar un producto.");
         }
+
+        ProductoDto productoActualizado = productoService.actualizarProducto(productoDto);
+
+        if (productoActualizado == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un producto con la referencia especificada.");
+        }
+
         return ResponseEntity.ok(productoActualizado);
     }
 
+    // Eliminar un producto
     @DeleteMapping("eliminar/{referencia}")
-    public ResponseEntity<?> eliminarProducto(@PathVariable String referencia){
-        if (referencia==null ||referencia.isEmpty()){
-            return ResponseEntity.badRequest().body("La referencia es obligatoria "+" para eliminar un producto");
+    public ResponseEntity<?> eliminarProducto(@PathVariable String referencia) {
+        if (referencia == null || referencia.isEmpty()) {
+            return ResponseEntity.badRequest().body("La referencia es obligatoria para eliminar un producto.");
         }
-        boolean eliminado= productoService.eliminarProducto(referencia);
-        if (eliminado){
-            return ResponseEntity.ok("Producto eliminado exitosamente");
+
+        boolean eliminado = productoService.eliminarProducto(referencia);
+
+        if (eliminado) {
+            return ResponseEntity.ok("Producto eliminado exitosamente.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontro un producto con la referencia especificada");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un producto con la referencia especificada.");
         }
     }
-
 }

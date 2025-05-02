@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "PRODUCTO")
+@Table(name = "producto") // Asegúrate de que este nombre coincide con tu tabla
 public class ProductoDto implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,10 +35,10 @@ public class ProductoDto implements Serializable {
     @Column(name = "ficha_tecnica", columnDefinition = "TEXT")
     private String fichaTecnica;
 
-    @Column(name = "precio_descuento", precision = 5, scale = 2)
+    @Column(name = "precio_descuento", precision = 10, scale = 2)
     private BigDecimal precioDescuento;
 
-    @Column(name = "FK_id_categoria")
+    @Column(name = "fk_id_categoria")
     private Integer fkIdCategoria;
 
     public ProductoDto() {

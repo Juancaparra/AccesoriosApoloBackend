@@ -1,71 +1,51 @@
 package com.accesoriosApolo.ws.dao;
 
 import com.accesoriosApolo.ws.dto.ProductoDto;
-import com.accesoriosApolo.ws.util.ProductoUtilidades;
+import com.accesoriosApolo.ws.repository.ProductoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductoDao {
 
-    public ProductoDao() {
-        ProductoUtilidades.iniciarLista();
+    private final ProductoRepository productoRepository;
+
+    @Autowired
+    public ProductoDao(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
     }
 
+    // Consultar producto por referencia
     public ProductoDto consultarProductoIndividual(String referencia) {
-        for (ProductoDto p : ProductoUtilidades.listaProductos) {
-            if (p.getReferencia().equals(referencia)) {
-                return new ProductoDto(
-                        p.getReferencia(),
-                        p.getNombre(),
-                        p.getDescripcion(),
-                        p.getTalla(),
-                        p.getStock(),
-                        p.getUrlArchivo(),
-                        p.getPrecioUnidad(),
-                        p.getFichaTecnica(),
-                        p.getPrecioDescuento(),
-                        p.getFkIdCategoria()
-                );
-            }
-        }
-        return null;
+        Optional<ProductoDto> producto = productoRepository.findById(referencia);
+        return producto.orElse(null);
     }
 
+    // Obtener lista de productos
     public List<ProductoDto> obtenerListaProductos() {
-        return ProductoUtilidades.listaProductos;
+        return productoRepository.findAll();
     }
 
+    // Registrar producto
     public ProductoDto registrarProducto(ProductoDto productoDto) {
-        for (ProductoDto obj : ProductoUtilidades.listaProductos) {
-            if (obj.getReferencia().equals(productoDto.getReferencia())) {
-                return null; // Ya existe
-            }
-        }
-        ProductoUtilidades.listaProductos.add(productoDto);
-        return productoDto;
+        return productoRepository.save(productoDto);
     }
 
+    // Actualizar producto
     public ProductoDto actualizarProducto(ProductoDto productoDto) {
-        for (ProductoDto obj : ProductoUtilidades.listaProductos) {
-            if (obj.getReferencia().equals(productoDto.getReferencia())) {
-                obj.setNombre(productoDto.getNombre());
-                obj.setDescripcion(productoDto.getDescripcion());
-                obj.setTalla(productoDto.getTalla());
-                obj.setStock(productoDto.getStock());
-                obj.setUrlArchivo(productoDto.getUrlArchivo());
-                obj.setPrecioUnidad(productoDto.getPrecioUnidad());
-                obj.setFichaTecnica(productoDto.getFichaTecnica());
-                obj.setPrecioDescuento(productoDto.getPrecioDescuento());
-                obj.setFkIdCategoria(productoDto.getFkIdCategoria());
-                return obj;
-            }
-        }
-        return null;
+        return productoRepository.save(productoDto);
     }
 
+    // Eliminar producto
     public boolean eliminarProducto(ProductoDto productoDto) {
-        return ProductoUtilidades.listaProductos.removeIf(p -> p.getReferencia().equals(productoDto.getReferencia()));
+        Optional<ProductoDto> productoExistente = productoRepository.findById(productoDto.getReferencia());
+        if (productoExistente.isPresent()) {
+            productoRepository.delete(productoExistente.get());
+            return true;
+        }
+        return false;
     }
 }

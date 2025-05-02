@@ -9,8 +9,7 @@ import java.util.List;
 @Repository
 public class CalcomaniaDao {
 
-    public CalcomaniaDao() {
-        CalcomaniaUtilidades.iniciarLista();
+    public CalcomaniaDao() {CalcomaniaUtilidades.iniciarLista();
     }
 
     public static CalcomaniaDto consultarCalcomaniaIndividual(int idCalcomania) {
