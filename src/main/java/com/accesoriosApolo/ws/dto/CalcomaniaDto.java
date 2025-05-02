@@ -12,7 +12,7 @@ public class CalcomaniaDto implements Serializable {
 
     @Id
     @Column(name = "id_calcomania")
-    private Integer idCalcomania;
+    private Long idCalcomania;
 
     @Column(name = "nombre", length = 100)
     private String nombre;
@@ -31,13 +31,13 @@ public class CalcomaniaDto implements Serializable {
     private String urlArchivo;
 
     @Column(name = "FK_cedula")
-    private Integer fkCedula;
+    private Long fkCedula;
 
     public CalcomaniaDto() {
     }
 
-    public CalcomaniaDto(Integer idCalcomania, String nombre, String formato, String tamañoArchivo,
-                         Date fechaSubida, String urlArchivo, Integer fkCedula) {
+    public CalcomaniaDto(Long idCalcomania, String nombre, String formato, String tamañoArchivo,
+                         Date fechaSubida, String urlArchivo, Long fkCedula) {
         this.idCalcomania = idCalcomania;
         this.nombre = nombre;
         this.formato = formato;
@@ -47,11 +47,11 @@ public class CalcomaniaDto implements Serializable {
         this.fkCedula = fkCedula;
     }
 
-    public Integer getIdCalcomania() {
+    public Long getIdCalcomania() {
         return idCalcomania;
     }
 
-    public void setIdCalcomania(Integer idCalcomania) {
+    public void setIdCalcomania(Long idCalcomania) {
         this.idCalcomania = idCalcomania;
     }
 
@@ -95,11 +95,11 @@ public class CalcomaniaDto implements Serializable {
         this.urlArchivo = urlArchivo;
     }
 
-    public Integer getFkCedula() {
+    public Long getFkCedula() {
         return fkCedula;
     }
 
-    public void setFkCedula(Integer fkCedula) {
+    public void setFkCedula(Long fkCedula) {
         this.fkCedula = fkCedula;
     }
 

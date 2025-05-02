@@ -17,7 +17,7 @@ public class CalcomaniaService {
         this.calcomaniaDao = calcomaniaDao;
     }
 
-    public CalcomaniaDto obtenerCalcomaniaPorId(int idCalcomania) {
+    public CalcomaniaDto obtenerCalcomaniaPorId(long idCalcomania) {
         return calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
     }
 
@@ -46,7 +46,7 @@ public class CalcomaniaService {
         return calcomaniaDao.actualizarCalcomania(calcomaniaDto);
     }
 
-    public boolean eliminarCalcomania(int idCalcomania) {
+    public boolean eliminarCalcomania(long idCalcomania) {
         CalcomaniaDto calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
         if (calcomaniaExistente == null) {
             return false;
