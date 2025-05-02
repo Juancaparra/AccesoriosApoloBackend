@@ -18,7 +18,7 @@ public class ProveedorService {
     }
 
     public ProveedorDto obtenerProveedorPorNit(String nit) {
-        return ProveedorDao.consultarProveedorIndividual(nit);
+        return proveedorDao.consultarProveedorIndividual(nit);
     }
 
     public List<ProveedorDto> obtenerListaProveedor() {
@@ -36,7 +36,7 @@ public class ProveedorService {
         if (proveedorDto == null || proveedorDto.getNit() == null || proveedorDto.getNit().isEmpty()) {
             return null;
         }
-        ProveedorDto proveedorExistente = ProveedorDao.consultarProveedorIndividual(proveedorDto.getNit());
+        ProveedorDto proveedorExistente = proveedorDao.consultarProveedorIndividual(proveedorDto.getNit());
         if (proveedorExistente == null) {
             return null;
         }
@@ -44,7 +44,7 @@ public class ProveedorService {
     }
 
     public boolean eliminarProveedor(String nit) {
-        ProveedorDto proveedorExistente = ProveedorDao.consultarProveedorIndividual(nit);
+        ProveedorDto proveedorExistente = proveedorDao.consultarProveedorIndividual(nit);
         if (proveedorExistente == null) {
             return false;
         }

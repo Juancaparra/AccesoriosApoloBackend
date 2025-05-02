@@ -1,7 +1,8 @@
 package com.accesoriosApolo.ws.dao;
 
 import com.accesoriosApolo.ws.dto.ProveedorDto;
-import com.accesoriosApolo.ws.util.ProveedorUtilidades;
+import com.accesoriosApolo.ws.repository.ProveedorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,48 +10,40 @@ import java.util.List;
 @Repository
 public class ProveedorDao {
 
-    public ProveedorDao() {
-        ProveedorUtilidades.iniciarLista();
-    }
+    @Autowired
+    private ProveedorRepository proveedorRepository;
 
-    public static ProveedorDto consultarProveedorIndividual(String nit) {
-        for (ProveedorDto p : ProveedorUtilidades.listaProveedores) {
-            if (p.getNit().equals(nit)) {
-                return p;
-            }
-        }
-        return null;
+    public ProveedorDto consultarProveedorIndividual(String nit) {
+        return proveedorRepository.findByNit(nit);
     }
 
     public List<ProveedorDto> obtenerListaProveedores() {
-        return ProveedorUtilidades.listaProveedores;
+        return proveedorRepository.findAll();
     }
 
     public ProveedorDto registrarProveedor(ProveedorDto proveedorDto) {
-        for (ProveedorDto obj : ProveedorUtilidades.listaProveedores) {
-            if (obj.getNit().equals(proveedorDto.getNit())) {
-                return null;
-            }
-        }
-        ProveedorUtilidades.listaProveedores.add(proveedorDto);
-        return proveedorDto;
+        return proveedorRepository.save(proveedorDto);
     }
 
     public ProveedorDto actualizarProveedor(ProveedorDto proveedorDto) {
-        for (ProveedorDto obj : ProveedorUtilidades.listaProveedores) {
-            if (obj.getNit().equals(proveedorDto.getNit())) {
-                obj.setNombre(proveedorDto.getNombre());
-                obj.setEmpresa(proveedorDto.getEmpresa());
-                obj.setCorreo(proveedorDto.getCorreo());
-                obj.setTelefono(proveedorDto.getTelefono());
-                obj.setDireccion(proveedorDto.getDireccion());
-                return obj;
-            }
-        }
-        return null;
+        return proveedorRepository.save(proveedorDto);
     }
 
     public boolean eliminarProveedor(ProveedorDto proveedorDto) {
-        return ProveedorUtilidades.listaProveedores.removeIf(p -> p.getNit().equals(proveedorDto.getNit()));
+        try {
+            proveedorRepository.delete(proveedorDto);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Métodos antiguos (basados en referencia, si los necesitas)
+    public ProveedorDto obtenerProveedor(String referencia) {
+        return proveedorRepository.findByReferencia(referencia);
+    }
+
+    public void eliminarProveedor(String referencia) {
+        proveedorRepository.deleteByReferencia(referencia);
     }
 }

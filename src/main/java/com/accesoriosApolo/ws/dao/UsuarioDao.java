@@ -1,63 +1,57 @@
 package com.accesoriosApolo.ws.dao;
 
 import com.accesoriosApolo.ws.dto.UsuarioDto;
-import com.accesoriosApolo.ws.util.UsuarioUtilidades;
+import com.accesoriosApolo.ws.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UsuarioDao {
 
-    public UsuarioDao() {
-        UsuarioUtilidades.iniciarLista();
-    }
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public UsuarioDto consultarUsuarioIndividual(int cedula) {
-        for (UsuarioDto u : UsuarioUtilidades.listaUsuarios) {
-            if (u.getCedula() == cedula) {
-                return u;
-            }
-        }
-        return null;
+        return usuarioRepository.findByCedula(cedula);
     }
 
-
     public List<UsuarioDto> obtenerListaUsuarios() {
-        return UsuarioUtilidades.listaUsuarios;
+        return usuarioRepository.findAll();
     }
 
     public UsuarioDto registrarUsuario(UsuarioDto usuarioDto) {
-        for (UsuarioDto u : UsuarioUtilidades.listaUsuarios) {
-            if (u.getCedula() == usuarioDto.getCedula()) {
-                return null;
-            }
-        }
-        UsuarioUtilidades.listaUsuarios.add(usuarioDto);
-        return usuarioDto;
+        return usuarioRepository.save(usuarioDto);
     }
 
     public UsuarioDto actualizarUsuario(UsuarioDto usuarioDto) {
-        for (UsuarioDto u : UsuarioUtilidades.listaUsuarios) {
-            if (u.getCedula() == usuarioDto.getCedula()) {
-                u.setNombre(usuarioDto.getNombre());
-                u.setCorreo(usuarioDto.getCorreo());
-                u.setTelefono(usuarioDto.getTelefono());
-                u.setContrasena(usuarioDto.getContrasena());
-                return u;
-            }
-        }
-        return null;
+        return usuarioRepository.save(usuarioDto);
     }
 
     public boolean eliminarUsuario(int cedula) {
-        for (int i = 0; i < UsuarioUtilidades.listaUsuarios.size(); i++) {
-            if (UsuarioUtilidades.listaUsuarios.get(i).getCedula() == cedula) {
-                UsuarioUtilidades.listaUsuarios.remove(i);
+        try {
+            UsuarioDto usuario = usuarioRepository.findByCedula(cedula);
+            if (usuario != null) {
+                usuarioRepository.delete(usuario);
                 return true;
             }
+        } catch (Exception e) {
+            return false;
         }
         return false;
     }
 
+    // Métodos opcionales si aún necesitas trabajar con ID tipo Long
+    public UsuarioDto obtenerUsuario(Long id) {
+        Optional<UsuarioDto> usuarioOpt = usuarioRepository.findById(id);
+        return usuarioOpt.orElse(null);
+    }
+
+    public void eliminarUsuario(Long id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+        }
+    }
 }

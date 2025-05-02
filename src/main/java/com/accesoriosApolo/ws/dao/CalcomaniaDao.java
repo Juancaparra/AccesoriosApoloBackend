@@ -1,7 +1,8 @@
 package com.accesoriosApolo.ws.dao;
 
 import com.accesoriosApolo.ws.dto.CalcomaniaDto;
-import com.accesoriosApolo.ws.util.CalcomaniaUtilidades;
+import com.accesoriosApolo.ws.repository.CalcomaniaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,63 +10,44 @@ import java.util.List;
 @Repository
 public class CalcomaniaDao {
 
-    public CalcomaniaDao() {CalcomaniaUtilidades.iniciarLista();
-    }
+    @Autowired
+    private CalcomaniaRepository calcomaniaRepository;
 
-    public static CalcomaniaDto consultarCalcomaniaIndividual(int idCalcomania) {
-        for (CalcomaniaDto c : CalcomaniaUtilidades.listaCalcomanias) {
-            if (c.getIdCalcomania() == idCalcomania) {
-                CalcomaniaDto calcomaniaDto = new CalcomaniaDto();
-                calcomaniaDto.setIdCalcomania(c.getIdCalcomania());
-                calcomaniaDto.setNombre(c.getNombre());
-                calcomaniaDto.setFechaSubida(c.getFechaSubida());
-                calcomaniaDto.setFormato(c.getFormato());
-                calcomaniaDto.setUrlArchivo(c.getUrlArchivo());
-                calcomaniaDto.setTamañoArchivo(c.getTamañoArchivo());
-                calcomaniaDto.setFkCedula(c.getFkCedula());
-                return calcomaniaDto;
-            }
-        }
-        return null;
+    public CalcomaniaDto consultarCalcomaniaIndividual(Long idCalcomania) {
+        return calcomaniaRepository.findById(idCalcomania).orElse(null);
     }
 
     public List<CalcomaniaDto> obtenerListaCalcomanias() {
-        return CalcomaniaUtilidades.listaCalcomanias;
+        return calcomaniaRepository.findAll();
     }
 
     public CalcomaniaDto registrarCalcomania(CalcomaniaDto calcomaniaDto) {
-        for (CalcomaniaDto obj : CalcomaniaUtilidades.listaCalcomanias) {
-            if (obj.getIdCalcomania() == calcomaniaDto.getIdCalcomania()) {
-                return null;
-            }
-        }
-
-        CalcomaniaUtilidades.listaCalcomanias.add(calcomaniaDto);
-        return calcomaniaDto;
+        return calcomaniaRepository.save(calcomaniaDto);
     }
 
     public CalcomaniaDto actualizarCalcomania(CalcomaniaDto calcomaniaDto) {
-        for (CalcomaniaDto obj : CalcomaniaUtilidades.listaCalcomanias) {
-            if (obj.getIdCalcomania() == calcomaniaDto.getIdCalcomania()) {
-                obj.setNombre(calcomaniaDto.getNombre());
-                obj.setFechaSubida(calcomaniaDto.getFechaSubida());
-                obj.setFormato(calcomaniaDto.getFormato());
-                obj.setUrlArchivo(calcomaniaDto.getUrlArchivo());
-                obj.setTamañoArchivo(calcomaniaDto.getTamañoArchivo());
-                obj.setFkCedula(calcomaniaDto.getFkCedula());
-                return obj;
-            }
-        }
-        return null;
+        return calcomaniaRepository.save(calcomaniaDto);
     }
 
     public boolean eliminarCalcomania(CalcomaniaDto calcomaniaDto) {
-        for (int i = 0; i < CalcomaniaUtilidades.listaCalcomanias.size(); i++) {
-            if (CalcomaniaUtilidades.listaCalcomanias.get(i).getIdCalcomania() == calcomaniaDto.getIdCalcomania()) {
-                CalcomaniaUtilidades.listaCalcomanias.remove(i);
-                return true;
-            }
+        try {
+            calcomaniaRepository.delete(calcomaniaDto);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
+    }
+
+    // Métodos adicionales basados en referencia (ya existentes)
+    public CalcomaniaDto obtenerCalcomania(String referencia) {
+        return calcomaniaRepository.findByReferencia(referencia);
+    }
+
+    public CalcomaniaDto guardarCalcomania(CalcomaniaDto calcomaniaDto) {
+        return calcomaniaRepository.save(calcomaniaDto);
+    }
+
+    public void eliminarCalcomania(String referencia) {
+        calcomaniaRepository.deleteByReferencia(referencia);
     }
 }
