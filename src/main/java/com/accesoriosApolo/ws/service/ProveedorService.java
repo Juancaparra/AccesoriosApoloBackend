@@ -1,7 +1,7 @@
 package com.accesoriosApolo.ws.service;
 
 import com.accesoriosApolo.ws.dao.ProveedorDao;
-import com.accesoriosApolo.ws.dto.ProveedorDto;
+import com.accesoriosApolo.ws.Entidades.Proveedor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,34 +17,34 @@ public class ProveedorService {
         this.proveedorDao = proveedorDao;
     }
 
-    public ProveedorDto obtenerProveedorPorNit(String nit) {
+    public Proveedor obtenerProveedorPorNit(String nit) {
         return proveedorDao.consultarProveedorIndividual(nit);
     }
 
-    public List<ProveedorDto> obtenerListaProveedor() {
+    public List<Proveedor> obtenerListaProveedor() {
         return proveedorDao.obtenerListaProveedores();
     }
 
-    public ProveedorDto registrarProveedor(ProveedorDto proveedorDto) {
-        if (proveedorDto == null || proveedorDto.getNit() == null || proveedorDto.getNit().isEmpty()) {
+    public Proveedor registrarProveedor(Proveedor proveedor) {
+        if (proveedor == null || proveedor.getNit() == null || proveedor.getNit().isEmpty()) {
             return null;
         }
-        return proveedorDao.registrarProveedor(proveedorDto);
+        return proveedorDao.registrarProveedor(proveedor);
     }
 
-    public ProveedorDto actualizarProveedor(ProveedorDto proveedorDto) {
-        if (proveedorDto == null || proveedorDto.getNit() == null || proveedorDto.getNit().isEmpty()) {
+    public Proveedor actualizarProveedor(Proveedor proveedor) {
+        if (proveedor == null || proveedor.getNit() == null || proveedor.getNit().isEmpty()) {
             return null;
         }
-        ProveedorDto proveedorExistente = proveedorDao.consultarProveedorIndividual(proveedorDto.getNit());
+        Proveedor proveedorExistente = proveedorDao.consultarProveedorIndividual(proveedor.getNit());
         if (proveedorExistente == null) {
             return null;
         }
-        return proveedorDao.actualizarProveedor(proveedorDto);
+        return proveedorDao.actualizarProveedor(proveedor);
     }
 
     public boolean eliminarProveedor(String nit) {
-        ProveedorDto proveedorExistente = proveedorDao.consultarProveedorIndividual(nit);
+        Proveedor proveedorExistente = proveedorDao.consultarProveedorIndividual(nit);
         if (proveedorExistente == null) {
             return false;
         }

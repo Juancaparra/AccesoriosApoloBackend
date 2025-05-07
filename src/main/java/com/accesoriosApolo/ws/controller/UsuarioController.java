@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.controller;
 
-import com.accesoriosApolo.ws.dto.UsuarioDto;
+import com.accesoriosApolo.ws.Entidades.Usuario;
 import com.accesoriosApolo.ws.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,24 +25,24 @@ public class UsuarioController {
         if (cedula <= 0) {
             return ResponseEntity.badRequest().body("El parámetro 'cedula' es obligatorio y debe ser mayor que 0.");
         }
-        UsuarioDto usuarioDto = usuarioService.obtenerUsuarioPorCedula(cedula);
-        if (usuarioDto == null) {
+        Usuario usuario = usuarioService.obtenerUsuarioPorCedula(cedula);
+        if (usuario == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Usuario no encontrado para la cédula: " + cedula);
         }
-        return ResponseEntity.ok(usuarioDto);
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/usuarios-list")
-    public ResponseEntity<List<UsuarioDto>> getUsuarios() {
+    public ResponseEntity<List<Usuario>> getUsuarios() {
         try {
-            List<UsuarioDto> usuarioDtos = usuarioService.obtenerListaUsuarios();
+            List<Usuario> usuarios = usuarioService.obtenerListaUsuarios();
 
-            if (usuarioDtos.isEmpty()) {
+            if (usuarios.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
 
-            return ResponseEntity.ok(usuarioDtos);
+            return ResponseEntity.ok(usuarios);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
@@ -50,9 +50,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/registrar-usuario")
-    public ResponseEntity<UsuarioDto> registrarUsuario(@RequestBody UsuarioDto usuarioDto) {
+    public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
 
-        UsuarioDto miUsuario = usuarioService.registrarUsuario(usuarioDto);
+        Usuario miUsuario = usuarioService.registrarUsuario(usuario);
 
         if (miUsuario != null) {
             return ResponseEntity.ok(miUsuario);
@@ -62,8 +62,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/actualizar-usuario")
-    public ResponseEntity<?> actualizarUsuario(@RequestBody UsuarioDto usuarioDto) {
-        UsuarioDto usuarioActualizado = usuarioService.actualizarUsuario(usuarioDto);
+    public ResponseEntity<?> actualizarUsuario(@RequestBody Usuario usuario) {
+        Usuario usuarioActualizado = usuarioService.actualizarUsuario(usuario);
 
         if (usuarioActualizado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un usuario con la cédula especificada.");

@@ -1,7 +1,7 @@
 package com.accesoriosApolo.ws.service;
 
 import com.accesoriosApolo.ws.dao.CalcomaniaDao;
-import com.accesoriosApolo.ws.dto.CalcomaniaDto;
+import com.accesoriosApolo.ws.Entidades.Calcomania;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,37 +17,37 @@ public class CalcomaniaService {
         this.calcomaniaDao = calcomaniaDao;
     }
 
-    public CalcomaniaDto obtenerCalcomaniaPorId(long idCalcomania) {
+    public Calcomania obtenerCalcomaniaPorId(long idCalcomania) {
         return calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
     }
 
-    public List<CalcomaniaDto> obtenerListaCalcomanias() {
+    public List<Calcomania> obtenerListaCalcomanias() {
         return calcomaniaDao.obtenerListaCalcomanias();
     }
 
-    public CalcomaniaDto registrarCalcomania(CalcomaniaDto calcomaniaDto) {
-        if (calcomaniaDto == null || calcomaniaDto.getNombre() == null || calcomaniaDto.getNombre().isEmpty()) {
+    public Calcomania registrarCalcomania(Calcomania calcomania) {
+        if (calcomania == null || calcomania.getNombre() == null || calcomania.getNombre().isEmpty()) {
             return null;
         }
 
-        return calcomaniaDao.registrarCalcomania(calcomaniaDto);
+        return calcomaniaDao.registrarCalcomania(calcomania);
     }
 
-    public CalcomaniaDto actualizarCalcomania(CalcomaniaDto calcomaniaDto) {
-        if (calcomaniaDto == null || calcomaniaDto.getIdCalcomania() == null || calcomaniaDto.getIdCalcomania() == 0) {
+    public Calcomania actualizarCalcomania(Calcomania calcomania) {
+        if (calcomania == null || calcomania.getIdCalcomania() == null || calcomania.getIdCalcomania() == 0) {
             return null;
         }
 
-        CalcomaniaDto calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(calcomaniaDto.getIdCalcomania());
+        Calcomania calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(calcomania.getIdCalcomania());
         if (calcomaniaExistente == null) {
             return null;
         }
 
-        return calcomaniaDao.actualizarCalcomania(calcomaniaDto);
+        return calcomaniaDao.actualizarCalcomania(calcomania);
     }
 
     public boolean eliminarCalcomania(long idCalcomania) {
-        CalcomaniaDto calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
+        Calcomania calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
         if (calcomaniaExistente == null) {
             return false;
         }

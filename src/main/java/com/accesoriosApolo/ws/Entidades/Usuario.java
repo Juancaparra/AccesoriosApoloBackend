@@ -1,4 +1,4 @@
-package com.accesoriosApolo.ws.dto;
+package com.accesoriosApolo.ws.Entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "USUARIO")
-public class UsuarioDto implements Serializable {
+public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -28,15 +28,19 @@ public class UsuarioDto implements Serializable {
     @Column(name = "contrasena", length = 100)
     private String contrasena;
 
-    public UsuarioDto() {
+    @Column(name = "verificado", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean verificado;
+
+    public Usuario() {
     }
 
-    public UsuarioDto(Integer cedula, String nombre, String correo, String telefono, String contrasena) {
+    public Usuario(Integer cedula, String nombre, String correo, String telefono, String contrasena, boolean verificado) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
         this.contrasena = contrasena;
+        this.verificado = verificado;
     }
 
     public Integer getCedula() {
@@ -79,6 +83,14 @@ public class UsuarioDto implements Serializable {
         this.contrasena = contrasena;
     }
 
+    public boolean isVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
+    }
+
     @Override
     public String toString() {
         return "UsuarioDto{" +
@@ -87,6 +99,7 @@ public class UsuarioDto implements Serializable {
                 ", correo='" + correo + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", contrasena='" + contrasena + '\'' +
+                ", verificado=" + verificado +
                 '}';
     }
 }

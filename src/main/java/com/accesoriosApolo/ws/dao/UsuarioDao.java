@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.dao;
 
-import com.accesoriosApolo.ws.dto.UsuarioDto;
+import com.accesoriosApolo.ws.Entidades.Usuario;
 import com.accesoriosApolo.ws.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,25 +14,25 @@ public class UsuarioDao {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioDto consultarUsuarioIndividual(int cedula) {
+    public Usuario consultarUsuarioIndividual(int cedula) {
         return usuarioRepository.findByCedula(cedula);
     }
 
-    public List<UsuarioDto> obtenerListaUsuarios() {
+    public List<Usuario> obtenerListaUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    public UsuarioDto registrarUsuario(UsuarioDto usuarioDto) {
-        return usuarioRepository.save(usuarioDto);
+    public Usuario registrarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
-    public UsuarioDto actualizarUsuario(UsuarioDto usuarioDto) {
-        return usuarioRepository.save(usuarioDto);
+    public Usuario actualizarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     public boolean eliminarUsuario(int cedula) {
         try {
-            UsuarioDto usuario = usuarioRepository.findByCedula(cedula);
+            Usuario usuario = usuarioRepository.findByCedula(cedula);
             if (usuario != null) {
                 usuarioRepository.delete(usuario);
                 return true;
@@ -44,8 +44,8 @@ public class UsuarioDao {
     }
 
     // Métodos opcionales si aún necesitas trabajar con ID tipo Long
-    public UsuarioDto obtenerUsuario(Long id) {
-        Optional<UsuarioDto> usuarioOpt = usuarioRepository.findById(id);
+    public Usuario obtenerUsuario(Long id) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         return usuarioOpt.orElse(null);
     }
 

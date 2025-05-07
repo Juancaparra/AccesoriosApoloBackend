@@ -1,4 +1,4 @@
-package com.accesoriosApolo.ws.dto;
+package com.accesoriosApolo.ws.Entidades;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "producto") // Asegúrate de que este nombre coincide con tu tabla
-public class ProductoDto implements Serializable {
+public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,12 +41,12 @@ public class ProductoDto implements Serializable {
     @Column(name = "fk_id_categoria")
     private Integer fkIdCategoria;
 
-    public ProductoDto() {
+    public Producto() {
     }
 
-    public ProductoDto(String referencia, String nombre, String descripcion, String talla, Integer stock,
-                       String urlArchivo, BigDecimal precioUnidad, String fichaTecnica,
-                       BigDecimal precioDescuento, Integer fkIdCategoria) {
+    public Producto(String referencia, String nombre, String descripcion, String talla, Integer stock,
+                    String urlArchivo, BigDecimal precioUnidad, String fichaTecnica,
+                    BigDecimal precioDescuento, Integer fkIdCategoria) {
         this.referencia = referencia;
         this.nombre = nombre;
         this.descripcion = descripcion;

@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.controller;
 
-import com.accesoriosApolo.ws.dto.ProveedorDto;
+import com.accesoriosApolo.ws.Entidades.Proveedor;
 import com.accesoriosApolo.ws.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,30 +25,30 @@ public class ProveedorController {
         if (nit == null || nit.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El parámetro 'nit' es obligatorio");
         }
-        ProveedorDto proveedorDto = proveedorService.obtenerProveedorPorNit(nit);
-        if (proveedorDto == null) {
+        Proveedor proveedor = proveedorService.obtenerProveedorPorNit(nit);
+        if (proveedor == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Proveedor no encontrado con el NIT: " + nit);
         }
-        return ResponseEntity.ok(proveedorDto);
+        return ResponseEntity.ok(proveedor);
     }
 
     @GetMapping("/proveedor-list")
-    public ResponseEntity<List<ProveedorDto>> getProveedores() {
+    public ResponseEntity<List<Proveedor>> getProveedores() {
         try {
-            List<ProveedorDto> proveedorDtos = proveedorService.obtenerListaProveedor();
-            if (proveedorDtos.isEmpty()) {
+            List<Proveedor> proveedors = proveedorService.obtenerListaProveedor();
+            if (proveedors.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
-            return ResponseEntity.ok(proveedorDtos);
+            return ResponseEntity.ok(proveedors);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @PostMapping("/nombre")
-    public ResponseEntity<ProveedorDto> registrarProveedor(@RequestBody ProveedorDto proveedorDto) {
-        ProveedorDto nuevoProveedor = proveedorService.registrarProveedor(proveedorDto);
+    public ResponseEntity<Proveedor> registrarProveedor(@RequestBody Proveedor proveedor) {
+        Proveedor nuevoProveedor = proveedorService.registrarProveedor(proveedor);
         if (nuevoProveedor != null) {
             return ResponseEntity.ok(nuevoProveedor);
         } else {
@@ -57,8 +57,8 @@ public class ProveedorController {
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<?> actualizarProveedor(@RequestBody ProveedorDto proveedorDto) {
-        ProveedorDto proveedorActualizado = proveedorService.actualizarProveedor(proveedorDto);
+    public ResponseEntity<?> actualizarProveedor(@RequestBody Proveedor proveedor) {
+        Proveedor proveedorActualizado = proveedorService.actualizarProveedor(proveedor);
         if (proveedorActualizado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No se encontró un proveedor con el NIT especificado");

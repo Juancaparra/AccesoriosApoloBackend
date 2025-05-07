@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.controller;
 
-import com.accesoriosApolo.ws.dto.CalcomaniaDto;
+import com.accesoriosApolo.ws.Entidades.Calcomania;
 import com.accesoriosApolo.ws.service.CalcomaniaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,24 +25,24 @@ public class CalcomaniaController {
         if (id_calcomania <= 0) {
             return ResponseEntity.badRequest().body("El parámetro 'id' debe ser mayor a cero.");
         }
-        CalcomaniaDto calcomaniaDto = calcomaniaService.obtenerCalcomaniaPorId(id_calcomania);
-        if (calcomaniaDto == null) {
+        Calcomania calcomania = calcomaniaService.obtenerCalcomaniaPorId(id_calcomania);
+        if (calcomania == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Calcomanía no encontrada para el ID: " + id_calcomania);
         }
-        return ResponseEntity.ok(calcomaniaDto);
+        return ResponseEntity.ok(calcomania);
     }
 
     @GetMapping("/calcomanias-list")
-    public ResponseEntity<List<CalcomaniaDto>> getCalcomanias() {
+    public ResponseEntity<List<Calcomania>> getCalcomanias() {
         try {
-            List<CalcomaniaDto> calcomaniaDtos = calcomaniaService.obtenerListaCalcomanias();
+            List<Calcomania> calcomanias = calcomaniaService.obtenerListaCalcomanias();
 
-            if (calcomaniaDtos.isEmpty()) {
+            if (calcomanias.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
 
-            return ResponseEntity.ok(calcomaniaDtos);
+            return ResponseEntity.ok(calcomanias);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
@@ -50,8 +50,8 @@ public class CalcomaniaController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<CalcomaniaDto> registrarCalcomania(@RequestBody CalcomaniaDto calcomaniaDto) {
-        CalcomaniaDto nuevaCalcomania = calcomaniaService.registrarCalcomania(calcomaniaDto);
+    public ResponseEntity<Calcomania> registrarCalcomania(@RequestBody Calcomania calcomania) {
+        Calcomania nuevaCalcomania = calcomaniaService.registrarCalcomania(calcomania);
         if (nuevaCalcomania != null) {
             return ResponseEntity.ok(nuevaCalcomania);
         } else {
@@ -60,8 +60,8 @@ public class CalcomaniaController {
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<?> actualizarCalcomania(@RequestBody CalcomaniaDto calcomaniaDto) {
-        CalcomaniaDto calcomaniaActualizada = calcomaniaService.actualizarCalcomania(calcomaniaDto);
+    public ResponseEntity<?> actualizarCalcomania(@RequestBody Calcomania calcomania) {
+        Calcomania calcomaniaActualizada = calcomaniaService.actualizarCalcomania(calcomania);
 
         if (calcomaniaActualizada == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

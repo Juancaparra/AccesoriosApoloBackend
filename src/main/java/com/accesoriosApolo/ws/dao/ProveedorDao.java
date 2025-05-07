@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.dao;
 
-import com.accesoriosApolo.ws.dto.ProveedorDto;
+import com.accesoriosApolo.ws.Entidades.Proveedor;
 import com.accesoriosApolo.ws.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,25 +13,25 @@ public class ProveedorDao {
     @Autowired
     private ProveedorRepository proveedorRepository;
 
-    public ProveedorDto consultarProveedorIndividual(String nit) {
+    public Proveedor consultarProveedorIndividual(String nit) {
         return proveedorRepository.findByNit(nit);
     }
 
-    public List<ProveedorDto> obtenerListaProveedores() {
+    public List<Proveedor> obtenerListaProveedores() {
         return proveedorRepository.findAll();
     }
 
-    public ProveedorDto registrarProveedor(ProveedorDto proveedorDto) {
-        return proveedorRepository.save(proveedorDto);
+    public Proveedor registrarProveedor(Proveedor proveedor) {
+        return proveedorRepository.save(proveedor);
     }
 
-    public ProveedorDto actualizarProveedor(ProveedorDto proveedorDto) {
-        return proveedorRepository.save(proveedorDto);
+    public Proveedor actualizarProveedor(Proveedor proveedor) {
+        return proveedorRepository.save(proveedor);
     }
 
-    public boolean eliminarProveedor(ProveedorDto proveedorDto) {
+    public boolean eliminarProveedor(Proveedor proveedor) {
         try {
-            proveedorRepository.delete(proveedorDto);
+            proveedorRepository.delete(proveedor);
             return true;
         } catch (Exception e) {
             return false;
@@ -39,7 +39,7 @@ public class ProveedorDao {
     }
 
     // Métodos antiguos (basados en referencia, si los necesitas)
-    public ProveedorDto obtenerProveedor(String referencia) {
+    public Proveedor obtenerProveedor(String referencia) {
         return proveedorRepository.findByReferencia(referencia);
     }
 

@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.controller;
 
-import com.accesoriosApolo.ws.dto.ProductoDto;
+import com.accesoriosApolo.ws.Entidades.Producto;
 import com.accesoriosApolo.ws.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,27 +27,27 @@ public class ProductoController {
             return ResponseEntity.badRequest().body("El parámetro 'referencia' es obligatorio.");
         }
 
-        ProductoDto productoDto = productoService.obtenerProdutoPorReferencia(referencia);
+        Producto producto = productoService.obtenerProdutoPorReferencia(referencia);
 
-        if (productoDto == null) {
+        if (producto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Producto no encontrado para la referencia: " + referencia);
         }
 
-        return ResponseEntity.ok(productoDto);
+        return ResponseEntity.ok(producto);
     }
 
     // Obtener lista de productos
     @GetMapping("productos-list")
-    public ResponseEntity<List<ProductoDto>> getProductos() {
+    public ResponseEntity<List<Producto>> getProductos() {
         try {
-            List<ProductoDto> productoDtos = productoService.obtenerListaProductos();
+            List<Producto> productos = productoService.obtenerListaProductos();
 
-            if (productoDtos.isEmpty()) {
+            if (productos.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
 
-            return ResponseEntity.ok(productoDtos);
+            return ResponseEntity.ok(productos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
@@ -56,12 +56,12 @@ public class ProductoController {
 
     // Registrar un nuevo producto
     @PostMapping("registrar")
-    public ResponseEntity<ProductoDto> registrarProducto(@RequestBody ProductoDto productoDto) {
-        if (productoDto == null || productoDto.getReferencia() == null || productoDto.getReferencia().isEmpty()) {
+    public ResponseEntity<Producto> registrarProducto(@RequestBody Producto producto) {
+        if (producto == null || producto.getReferencia() == null || producto.getReferencia().isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
 
-        ProductoDto miProducto = productoService.registrarProducto(productoDto);
+        Producto miProducto = productoService.registrarProducto(producto);
 
         if (miProducto != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(miProducto);
@@ -72,12 +72,12 @@ public class ProductoController {
 
     // Actualizar un producto
     @PutMapping("actualizar")
-    public ResponseEntity<?> actualizarProducto(@RequestBody ProductoDto productoDto) {
-        if (productoDto == null || productoDto.getReferencia() == null || productoDto.getReferencia().isEmpty()) {
+    public ResponseEntity<?> actualizarProducto(@RequestBody Producto producto) {
+        if (producto == null || producto.getReferencia() == null || producto.getReferencia().isEmpty()) {
             return ResponseEntity.badRequest().body("La referencia es obligatoria para actualizar un producto.");
         }
 
-        ProductoDto productoActualizado = productoService.actualizarProducto(productoDto);
+        Producto productoActualizado = productoService.actualizarProducto(producto);
 
         if (productoActualizado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un producto con la referencia especificada.");

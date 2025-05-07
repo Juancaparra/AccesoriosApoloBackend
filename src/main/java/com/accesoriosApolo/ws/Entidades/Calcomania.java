@@ -1,4 +1,4 @@
-package com.accesoriosApolo.ws.dto;
+package com.accesoriosApolo.ws.Entidades;
 
 import jakarta.persistence.*;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "CALCOMANIA")
-public class CalcomaniaDto implements Serializable {
+public class Calcomania implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,11 +33,11 @@ public class CalcomaniaDto implements Serializable {
     @Column(name = "FK_cedula")
     private Long fkCedula;
 
-    public CalcomaniaDto() {
+    public Calcomania() {
     }
 
-    public CalcomaniaDto(Long idCalcomania, String nombre, String formato, String tamañoArchivo,
-                         Date fechaSubida, String urlArchivo, Long fkCedula) {
+    public Calcomania(Long idCalcomania, String nombre, String formato, String tamañoArchivo,
+                      Date fechaSubida, String urlArchivo, Long fkCedula) {
         this.idCalcomania = idCalcomania;
         this.nombre = nombre;
         this.formato = formato;

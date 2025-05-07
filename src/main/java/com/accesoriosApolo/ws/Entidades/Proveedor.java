@@ -1,4 +1,4 @@
-package com.accesoriosApolo.ws.dto;
+package com.accesoriosApolo.ws.Entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "PROVEEDOR")
-public class ProveedorDto implements Serializable {
+public class Proveedor implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -31,10 +31,10 @@ public class ProveedorDto implements Serializable {
     @Column(name = "direccion", length = 50)
     private String direccion;
 
-    public ProveedorDto() {
+    public Proveedor() {
     }
 
-    public ProveedorDto(String nit, String nombre, String empresa, String correo, String telefono, String direccion) {
+    public Proveedor(String nit, String nombre, String empresa, String correo, String telefono, String direccion) {
         this.nit = nit;
         this.nombre = nombre;
         this.empresa = empresa;

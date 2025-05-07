@@ -1,7 +1,7 @@
 package com.accesoriosApolo.ws.service;
 
 import com.accesoriosApolo.ws.dao.UsuarioDao;
-import com.accesoriosApolo.ws.dto.UsuarioDto;
+import com.accesoriosApolo.ws.Entidades.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,41 +17,41 @@ public class UsuarioService {
         this.usuarioDao = usuarioDao;
     }
 
-    public UsuarioDto obtenerUsuarioPorCedula(int cedula) {
+    public Usuario obtenerUsuarioPorCedula(int cedula) {
         return usuarioDao.consultarUsuarioIndividual(cedula);
     }
 
-    public List<UsuarioDto> obtenerListaUsuarios() {
+    public List<Usuario> obtenerListaUsuarios() {
         return usuarioDao.obtenerListaUsuarios();
     }
 
-    public UsuarioDto registrarUsuario(UsuarioDto usuarioDto) {
-        if (usuarioDto == null || usuarioDto.getCedula() == 0) {
+    public Usuario registrarUsuario(Usuario usuario) {
+        if (usuario == null || usuario.getCedula() == 0) {
             return null;
         }
 
-        UsuarioDto usuarioExistente = usuarioDao.consultarUsuarioIndividual(usuarioDto.getCedula());
+        Usuario usuarioExistente = usuarioDao.consultarUsuarioIndividual(usuario.getCedula());
         if (usuarioExistente != null) {
             return null;
         }
 
-        return usuarioDao.registrarUsuario(usuarioDto);
+        return usuarioDao.registrarUsuario(usuario);
     }
 
 
-    public UsuarioDto actualizarUsuario(UsuarioDto usuarioDto) {
-        if (usuarioDto == null || usuarioDto.getCedula() == 0) {
+    public Usuario actualizarUsuario(Usuario usuario) {
+        if (usuario == null || usuario.getCedula() == 0) {
             return null;
         }
-        UsuarioDto usuarioExistente = usuarioDao.consultarUsuarioIndividual(usuarioDto.getCedula());
+        Usuario usuarioExistente = usuarioDao.consultarUsuarioIndividual(usuario.getCedula());
         if (usuarioExistente == null) {
             return null;
         }
-        return usuarioDao.actualizarUsuario(usuarioDto);
+        return usuarioDao.actualizarUsuario(usuario);
     }
 
     public boolean eliminarUsuario(int cedula) {
-        UsuarioDto usuarioExistente = usuarioDao.consultarUsuarioIndividual(cedula);
+        Usuario usuarioExistente = usuarioDao.consultarUsuarioIndividual(cedula);
         if (usuarioExistente == null) {
             return false;
         }

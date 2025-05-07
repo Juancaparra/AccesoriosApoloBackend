@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.dao;
 
-import com.accesoriosApolo.ws.dto.ProductoDto;
+import com.accesoriosApolo.ws.Entidades.Producto;
 import com.accesoriosApolo.ws.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,29 +19,29 @@ public class ProductoDao {
     }
 
     // Consultar producto por referencia
-    public ProductoDto consultarProductoIndividual(String referencia) {
-        Optional<ProductoDto> producto = productoRepository.findById(referencia);
+    public Producto consultarProductoIndividual(String referencia) {
+        Optional<Producto> producto = productoRepository.findById(referencia);
         return producto.orElse(null);
     }
 
     // Obtener lista de productos
-    public List<ProductoDto> obtenerListaProductos() {
+    public List<Producto> obtenerListaProductos() {
         return productoRepository.findAll();
     }
 
     // Registrar producto
-    public ProductoDto registrarProducto(ProductoDto productoDto) {
-        return productoRepository.save(productoDto);
+    public Producto registrarProducto(Producto producto) {
+        return productoRepository.save(producto);
     }
 
     // Actualizar producto
-    public ProductoDto actualizarProducto(ProductoDto productoDto) {
-        return productoRepository.save(productoDto);
+    public Producto actualizarProducto(Producto producto) {
+        return productoRepository.save(producto);
     }
 
     // Eliminar producto
-    public boolean eliminarProducto(ProductoDto productoDto) {
-        Optional<ProductoDto> productoExistente = productoRepository.findById(productoDto.getReferencia());
+    public boolean eliminarProducto(Producto producto) {
+        Optional<Producto> productoExistente = productoRepository.findById(producto.getReferencia());
         if (productoExistente.isPresent()) {
             productoRepository.delete(productoExistente.get());
             return true;

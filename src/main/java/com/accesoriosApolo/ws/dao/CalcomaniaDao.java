@@ -1,6 +1,6 @@
 package com.accesoriosApolo.ws.dao;
 
-import com.accesoriosApolo.ws.dto.CalcomaniaDto;
+import com.accesoriosApolo.ws.Entidades.Calcomania;
 import com.accesoriosApolo.ws.repository.CalcomaniaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,25 +13,25 @@ public class CalcomaniaDao {
     @Autowired
     private CalcomaniaRepository calcomaniaRepository;
 
-    public CalcomaniaDto consultarCalcomaniaIndividual(Long idCalcomania) {
+    public Calcomania consultarCalcomaniaIndividual(Long idCalcomania) {
         return calcomaniaRepository.findById(idCalcomania).orElse(null);
     }
 
-    public List<CalcomaniaDto> obtenerListaCalcomanias() {
+    public List<Calcomania> obtenerListaCalcomanias() {
         return calcomaniaRepository.findAll();
     }
 
-    public CalcomaniaDto registrarCalcomania(CalcomaniaDto calcomaniaDto) {
-        return calcomaniaRepository.save(calcomaniaDto);
+    public Calcomania registrarCalcomania(Calcomania calcomania) {
+        return calcomaniaRepository.save(calcomania);
     }
 
-    public CalcomaniaDto actualizarCalcomania(CalcomaniaDto calcomaniaDto) {
-        return calcomaniaRepository.save(calcomaniaDto);
+    public Calcomania actualizarCalcomania(Calcomania calcomania) {
+        return calcomaniaRepository.save(calcomania);
     }
 
-    public boolean eliminarCalcomania(CalcomaniaDto calcomaniaDto) {
+    public boolean eliminarCalcomania(Calcomania calcomania) {
         try {
-            calcomaniaRepository.delete(calcomaniaDto);
+            calcomaniaRepository.delete(calcomania);
             return true;
         } catch (Exception e) {
             return false;
@@ -39,12 +39,12 @@ public class CalcomaniaDao {
     }
 
     // Métodos adicionales basados en referencia (ya existentes)
-    public CalcomaniaDto obtenerCalcomania(String referencia) {
+    public Calcomania obtenerCalcomania(String referencia) {
         return calcomaniaRepository.findByReferencia(referencia);
     }
 
-    public CalcomaniaDto guardarCalcomania(CalcomaniaDto calcomaniaDto) {
-        return calcomaniaRepository.save(calcomaniaDto);
+    public Calcomania guardarCalcomania(Calcomania calcomania) {
+        return calcomaniaRepository.save(calcomania);
     }
 
     public void eliminarCalcomania(String referencia) {
