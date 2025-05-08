@@ -18,7 +18,7 @@ public class ProductoService {
     }
 
     // Obtener producto por referencia
-    public Producto obtenerProdutoPorReferencia(String referencia) {
+    public Producto obtenerProductoPorReferencia(String referencia) {
         return productoDao.consultarProductoIndividual(referencia); // Mantener el método original
     }
 

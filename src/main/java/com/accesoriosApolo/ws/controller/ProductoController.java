@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/servicio")
+@RequestMapping("/servicio/producto")
 public class ProductoController {
 
     private final ProductoService productoService;
@@ -27,7 +27,7 @@ public class ProductoController {
             return ResponseEntity.badRequest().body("El parámetro 'referencia' es obligatorio.");
         }
 
-        Producto producto = productoService.obtenerProdutoPorReferencia(referencia);
+        Producto producto = productoService.obtenerProductoPorReferencia(referencia);
 
         if (producto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

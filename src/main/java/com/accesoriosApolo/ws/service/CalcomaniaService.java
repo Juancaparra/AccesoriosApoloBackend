@@ -17,22 +17,25 @@ public class CalcomaniaService {
         this.calcomaniaDao = calcomaniaDao;
     }
 
+    // Obtener una calcomanía por su ID
     public Calcomania obtenerCalcomaniaPorId(long idCalcomania) {
         return calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
     }
 
+    // Obtener todas las calcomanías
     public List<Calcomania> obtenerListaCalcomanias() {
         return calcomaniaDao.obtenerListaCalcomanias();
     }
 
+    // Registrar una nueva calcomanía
     public Calcomania registrarCalcomania(Calcomania calcomania) {
         if (calcomania == null || calcomania.getNombre() == null || calcomania.getNombre().isEmpty()) {
             return null;
         }
-
         return calcomaniaDao.registrarCalcomania(calcomania);
     }
 
+    // Actualizar una calcomanía
     public Calcomania actualizarCalcomania(Calcomania calcomania) {
         if (calcomania == null || calcomania.getIdCalcomania() == null || calcomania.getIdCalcomania() == 0) {
             return null;
@@ -46,12 +49,12 @@ public class CalcomaniaService {
         return calcomaniaDao.actualizarCalcomania(calcomania);
     }
 
+    // Eliminar una calcomanía por su ID
     public boolean eliminarCalcomania(long idCalcomania) {
         Calcomania calcomaniaExistente = calcomaniaDao.consultarCalcomaniaIndividual(idCalcomania);
         if (calcomaniaExistente == null) {
             return false;
         }
-
-        return calcomaniaDao.eliminarCalcomania(calcomaniaExistente);
+        return calcomaniaDao.eliminarCalcomania(idCalcomania);
     }
 }

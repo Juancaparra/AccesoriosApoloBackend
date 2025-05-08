@@ -13,41 +13,33 @@ public class CalcomaniaDao {
     @Autowired
     private CalcomaniaRepository calcomaniaRepository;
 
+    // Obtener una calcomanía por su ID
     public Calcomania consultarCalcomaniaIndividual(Long idCalcomania) {
         return calcomaniaRepository.findById(idCalcomania).orElse(null);
     }
 
+    // Obtener todas las calcomanías
     public List<Calcomania> obtenerListaCalcomanias() {
         return calcomaniaRepository.findAll();
     }
 
+    // Registrar una nueva calcomanía
     public Calcomania registrarCalcomania(Calcomania calcomania) {
         return calcomaniaRepository.save(calcomania);
     }
 
+    // Actualizar una calcomanía
     public Calcomania actualizarCalcomania(Calcomania calcomania) {
         return calcomaniaRepository.save(calcomania);
     }
 
-    public boolean eliminarCalcomania(Calcomania calcomania) {
+    // Eliminar una calcomanía por su ID
+    public boolean eliminarCalcomania(Long idCalcomania) {
         try {
-            calcomaniaRepository.delete(calcomania);
+            calcomaniaRepository.deleteById(idCalcomania);
             return true;
         } catch (Exception e) {
             return false;
         }
-    }
-
-    // Métodos adicionales basados en referencia (ya existentes)
-    public Calcomania obtenerCalcomania(String referencia) {
-        return calcomaniaRepository.findByReferencia(referencia);
-    }
-
-    public Calcomania guardarCalcomania(Calcomania calcomania) {
-        return calcomaniaRepository.save(calcomania);
-    }
-
-    public void eliminarCalcomania(String referencia) {
-        calcomaniaRepository.deleteByReferencia(referencia);
     }
 }

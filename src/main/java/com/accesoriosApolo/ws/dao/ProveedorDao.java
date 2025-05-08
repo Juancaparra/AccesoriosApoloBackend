@@ -13,37 +13,33 @@ public class ProveedorDao {
     @Autowired
     private ProveedorRepository proveedorRepository;
 
+    // Buscar un proveedor por su NIT
     public Proveedor consultarProveedorIndividual(String nit) {
         return proveedorRepository.findByNit(nit);
     }
 
+    // Obtener la lista de proveedores
     public List<Proveedor> obtenerListaProveedores() {
         return proveedorRepository.findAll();
     }
 
+    // Registrar un proveedor
     public Proveedor registrarProveedor(Proveedor proveedor) {
         return proveedorRepository.save(proveedor);
     }
 
+    // Actualizar un proveedor
     public Proveedor actualizarProveedor(Proveedor proveedor) {
         return proveedorRepository.save(proveedor);
     }
 
-    public boolean eliminarProveedor(Proveedor proveedor) {
+    // Eliminar un proveedor por su NIT
+    public boolean eliminarProveedor(String nit) {
         try {
-            proveedorRepository.delete(proveedor);
+            proveedorRepository.deleteByNit(nit);
             return true;
         } catch (Exception e) {
             return false;
         }
-    }
-
-    // Métodos antiguos (basados en referencia, si los necesitas)
-    public Proveedor obtenerProveedor(String referencia) {
-        return proveedorRepository.findByReferencia(referencia);
-    }
-
-    public void eliminarProveedor(String referencia) {
-        proveedorRepository.deleteByReferencia(referencia);
     }
 }
