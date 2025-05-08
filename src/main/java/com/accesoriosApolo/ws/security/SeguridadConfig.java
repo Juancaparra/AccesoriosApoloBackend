@@ -1,55 +1,68 @@
 package com.accesoriosApolo.ws.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-@Configuration
-@EnableMethodSecurity
-public class SeguridadConfig {
+import java.io.IOException;
+import java.util.ArrayList;
 
-    @Autowired
-    private JwtFiltro jwtFiltro;
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private static final String SECRET_KEY = "mi_clave_secreta";
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/auth/**",                // Tus endpoints públicos
-                                "/v3/api-docs/**",         // Documentación OpenAPI
-                                "/swagger-ui/**",          // Recursos Swagger UI
-                                "/swagger-ui.html"         // Página principal de Swagger UI
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .userDetailsService(userDetailsService)
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFiltro, UsernamePasswordAuthenticationFilter.class)
-                .build();
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String token = extractToken(request);
+
+        if (token != null && validateToken(token)) {
+            Authentication authentication = getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        filterChain.doFilter(request, (ServletResponse) response);
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    private String extractToken(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7); // Eliminar "Bearer " del encabezado
+        }
+        return null;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    private boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true; // Token válido
+        } catch (Exception e) {
+            return false; // Token inválido
+        }
+    }
+
+    private Authentication getAuthentication(String token) {
+        // Aquí deberías obtener los detalles del usuario desde el token y devolver la autenticación.
+        // Por ejemplo, usando un servicio de usuario o la clase UserDetails.
+        String user = Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+
+        return new UsernamePasswordAuthenticationFilter(user, null, new ArrayList<>());
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
     }
 }
