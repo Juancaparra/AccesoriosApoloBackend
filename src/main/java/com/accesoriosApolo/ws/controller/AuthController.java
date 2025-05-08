@@ -1,7 +1,7 @@
 package com.accesoriosApolo.ws.controller;
 
 import com.accesoriosApolo.ws.dto.AuthRequest;
-import com.accesoriosApolo.ws.security.SeguridadConfig;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
