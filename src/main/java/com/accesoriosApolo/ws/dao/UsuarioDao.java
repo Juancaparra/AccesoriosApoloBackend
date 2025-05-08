@@ -44,12 +44,12 @@ public class UsuarioDao {
     }
 
     // Métodos opcionales si aún necesitas trabajar con ID tipo Long
-    public Usuario obtenerUsuario(Long id) {
+    public Usuario obtenerUsuario(Integer id) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         return usuarioOpt.orElse(null);
     }
 
-    public void eliminarUsuario(Long id) {
+    public void eliminarUsuario(Integer id) {
         if (usuarioRepository.existsById(id)) {
             usuarioRepository.deleteById(id);
         }

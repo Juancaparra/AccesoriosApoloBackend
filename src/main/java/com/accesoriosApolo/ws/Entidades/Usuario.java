@@ -1,18 +1,17 @@
 package com.accesoriosApolo.ws.Entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import java.io.Serializable;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "USUARIO")
-public class Usuario implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Usuario {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
+    private Integer id;
+
     @Column(name = "cedula")
     private Integer cedula;
 
@@ -28,19 +27,22 @@ public class Usuario implements Serializable {
     @Column(name = "contrasena", length = 100)
     private String contrasena;
 
-    @Column(name = "verificado", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean verificado;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "USUARIO_ROL",
+            joinColumns = @JoinColumn(name = "fk_id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_rol")
+    )
+    private List<Rol> roles;
 
-    public Usuario() {
+    // Getters y Setters
+
+    public Integer getId() {
+        return id;
     }
 
-    public Usuario(Integer cedula, String nombre, String correo, String telefono, String contrasena, boolean verificado) {
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.contrasena = contrasena;
-        this.verificado = verificado;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getCedula() {
@@ -83,23 +85,11 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
     }
 
-    public boolean isVerificado() {
-        return verificado;
+    public List<Rol> getRoles() {
+        return roles;
     }
 
-    public void setVerificado(boolean verificado) {
-        this.verificado = verificado;
-    }
-
-    @Override
-    public String toString() {
-        return "UsuarioDto{" +
-                "cedula=" + cedula +
-                ", nombre='" + nombre + '\'' +
-                ", correo='" + correo + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", contrasena='" + contrasena + '\'' +
-                ", verificado=" + verificado +
-                '}';
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
     }
 }
